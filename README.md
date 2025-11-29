@@ -1,4 +1,4 @@
-# Udemy Clone — Full Scaffold (Frontend + Backend)
+# Udemy Clone
 This repository contains a starter full-stack scaffold for a Udemy-style learning platform.
 ## What is included
 - Frontend: React + TypeScript (Vite) with basic pages (Home, Course Detail, Instructor Dashboard)
