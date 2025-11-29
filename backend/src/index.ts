@@ -1,0 +1,14 @@
+import express from 'express';
+import cors from 'cors';
+import { PrismaClient } from '@prisma/client';
+import authRoutes from './routes/auth';
+import courseRoutes from './routes/courses';
+const app = express();
+const prisma = new PrismaClient();
+app.use(cors());
+app.use(express.json());
+app.get('/', (req, res) => res.send('Udemy Clone Backend'));
+app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, ()=> console.log('Server running on', PORT));

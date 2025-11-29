@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  passwordHash String
+  name String?
+  role String @default("STUDENT")
+  createdAt DateTime @default(now())
+  courses Course[] @relation("InstructorCourses")
+  enrollments Enrollment[]
+  reviews Review[]
+}
+model Course {
+  id String @id @default(uuid())
+  title String
+  slug String @unique
+  description String
+  shortDesc String?
+  coverImage String?
+  priceCents Int @default(0)
+  instructorId String
+  instructor User @relation("InstructorCourses", fields: [instructorId], references: [id])
+  lessons Lesson[]
+  enrollments Enrollment[]
+  reviews Review[]
+  createdAt DateTime @default(now())
+}
+model Lesson {
+  id String @id @default(uuid())
+  title String
+  content String?
+  videoUrl String?
+  order Int @default(0)
+  courseId String
+  course Course @relation(fields: [courseId], references: [id])
+}
+model Enrollment {
+  id String @id @default(uuid())
+  userId String
+  courseId String
+  purchasedAt DateTime @default(now())
+  priceCents Int
+
+  user User @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+}
+model Review {
+  id String @id @default(uuid())
+  rating Int
+  content String?
+  userId String
+  courseId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+}
